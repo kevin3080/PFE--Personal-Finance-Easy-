@@ -19,8 +19,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->middleware('auth:sanctum');
     Route::get('/users/{id}', [UserController::class, 'show'])->middleware('auth:sanctum');
     Route::get('/users/{id}/wallets', [WalletController::class, 'show'])->middleware('auth:sanctum');
-    Route::get('/users/{id}/wallets/create', [WalletController::class, 'create'])->middleware('auth:sanctum');
-    //Route::get('/users/{id}/wallet/account-types', [AccountTypeController::class, 'show'])->middleware('auth:sanctum');
+    Route::post('/users/{id}/wallets/create', [WalletController::class, 'create'])->middleware('auth:sanctum');
     Route::get('/users/{id}/wallets/{wallet_id}/transactions', [TransactionController::class, 'show'])->middleware('auth:sanctum');
 });
 
