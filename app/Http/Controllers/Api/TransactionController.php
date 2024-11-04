@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    public function index( Request $request, $id, $wallet_id)
+    public function index( Request $request, $wallet_id)
     {
         $wallet = Wallet::find($wallet_id);
         $accountType = $wallet->accountType;
@@ -78,7 +78,7 @@ class TransactionController extends Controller
         }
     }
 
-    public function show(Request $request, $id, $wallet_id)
+    public function show(Request $request, $wallet_id)
     {
         try{
             $wallet = Wallet::with(['accountType', 'transactions.transactionType', 'transactions.category'])

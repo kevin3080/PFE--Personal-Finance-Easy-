@@ -10,9 +10,10 @@ use Illuminate\Http\Request;
 
 class WalletController extends Controller
 {
-    public function show($id)
+    public function show(Request $request)
     {
         try{
+            $id = $request->user()->id;
             $wallets = Wallet::where('user_id', $id)->with('accountType')->get();
             $wallets = $wallets->map(function ($wallet) {
                 return [
@@ -36,9 +37,10 @@ class WalletController extends Controller
         }
     }
 
-    public function create(Request $request, $id)
+    public function create(Request $request)
     {  
         try{
+            $id = $request->user()->id;
             $accountType = AccountType::create([
                 'type_account' => $request->type_account,
                 'balance' => $request->balance

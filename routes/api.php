@@ -18,14 +18,14 @@ Route::prefix('v1')->group(function () {
     // Rutas protegidas
     Route::get('/active-sessions', [AuthController::class, 'activeSessions'])->middleware('auth:sanctum');
     Route::get('/users', [UserController::class, 'index'])->middleware('auth:sanctum');
-    Route::middleware(['auth:sanctum', EnsureUserOwnership::class])->group(function () {
-        Route::get('/users/{id}', [UserController::class, 'show']);
-        Route::get('/users/{id}/wallets', [WalletController::class, 'show']);
-        Route::post('/users/{id}/wallets/create', [WalletController::class, 'create']);
-        Route::middleware([EnsureWalletOwner::class])->group(function () {
-            Route::get('/users/{id}/wallets/{wallet_id}/transactions', [TransactionController::class, 'show']);
-            Route::post('/users/{id}/wallets/{wallet_id}/transaction', [TransactionController::class, 'index']);
+    Route::middleware( ['auth:sanctum'])->group(function () {
+        Route::get('/users/wallets', [WalletController::class, 'show']);
+        Route::post('/users/wallets/create', [WalletController::class, 'create']);
+        Route::middleware(EnsureWalletOwner::class)->group(function () {  
+            Route::get('/users/wallets/{wallet_id}/transactions', [TransactionController::class, 'show']);
+            Route::post('/users/wallets/{wallet_id}/transaction', [TransactionController::class, 'index']);
         });
+        Route::get('/users/{id}', [UserController::class, 'show'])->middleware(EnsureUserOwnership::class);
     });
 });
 
