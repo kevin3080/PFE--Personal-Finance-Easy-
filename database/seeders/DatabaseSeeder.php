@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             //AccountTypeSeeder::class,
             TypeTransactionSeeder::class,
             WalletSeeder::class,
+            CategorySeeder::class
         ]);
     }
 }
