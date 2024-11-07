@@ -1,0 +1,856 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Personal Finance API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000"
+        }
+    ],
+    "paths": {
+        "/api/v1/users/wallets/{wallet_id}/transaction": {
+            "post": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Crear una transacción en la cartera del usuario",
+                "operationId": "5a3c8eb223f298539ae36695f46e76cd",
+                "parameters": [
+                    {
+                        "name": "wallet_id",
+                        "in": "path",
+                        "description": "ID de la cartera",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "example": "ingreso"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "example": 100.5
+                                    },
+                                    "category": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Pago de salario"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transacción creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transacción creada exitosamente"
+                                        },
+                                        "transaction": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "wallet_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "transaction_type": {
+                                                    "type": "string",
+                                                    "example": "ingreso"
+                                                },
+                                                "category_id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "amount": {
+                                                    "type": "number",
+                                                    "example": 100.5
+                                                },
+                                                "balance_after_transaction": {
+                                                    "type": "number",
+                                                    "example": 1100.5
+                                                },
+                                                "date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-11-06T19:10:44Z"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Pago de salario"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Datos de transacción no válidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Monto no válido"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error inesperado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error inesperado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/wallets/{wallet_id}/transactions": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Obtener todas las transacciones de una cartera específica",
+                "operationId": "5914a5bfe0e37ffdf14f9f30ec90ba2a",
+                "parameters": [
+                    {
+                        "name": "wallet_id",
+                        "in": "path",
+                        "description": "ID de la cartera",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de transacciones de la cartera",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "wallet": {
+                                            "type": "string",
+                                            "example": "Bancaria"
+                                        },
+                                        "transactions": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "wallet_name": {
+                                                        "type": "string",
+                                                        "example": "Bancaria"
+                                                    },
+                                                    "type_transaccion": {
+                                                        "type": "string",
+                                                        "example": "ingreso"
+                                                    },
+                                                    "category": {
+                                                        "type": "string",
+                                                        "example": "Salario"
+                                                    },
+                                                    "ammount": {
+                                                        "type": "string",
+                                                        "example": "$100.50"
+                                                    },
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-11-06T19:10:44Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cartera o transacciones no encontradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No hay transacciones en esta cartera"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error inesperado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error inesperado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Listar todos los usuarios",
+                "operationId": "b343fe695d1beaa03b7deb8449dd1b7c",
+                "responses": {
+                    "200": {
+                        "description": "Lista de todos los usuarios",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener un usuario específico con sus carteras",
+                "operationId": "0197efcfd303b59ccdaad3e01097a0e0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Información del usuario y sus carteras",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "wallet": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Wallet"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/v1/users/wallets": {
+            "get": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Obtener todas las carteras del usuario autenticado",
+                "operationId": "257be872852858814e0df7507dcebadb",
+                "responses": {
+                    "200": {
+                        "description": "Lista de carteras del usuario autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "wallets": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "wallet_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "account_type": {
+                                                        "type": "string",
+                                                        "example": "Bancaria"
+                                                    },
+                                                    "balance": {
+                                                        "type": "number",
+                                                        "example": 1000
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-11-06T19:10:44Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-11-06T19:10:44Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No hay carteras creadas en este usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No hay carteras creadas en este usuario"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error inesperado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "error inesperado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/wallets/create": {
+            "post": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Crear una nueva cartera para el usuario autenticado",
+                "operationId": "293c8c2a511ec37cda317696847aeb79",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "type_account": {
+                                        "type": "string",
+                                        "example": "Bancaria"
+                                    },
+                                    "balance": {
+                                        "type": "number",
+                                        "example": 5000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cartera creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "wallet creada correctamente": {
+                                            "properties": {
+                                                "wallet_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "account_type": {
+                                                    "type": "string",
+                                                    "example": "Bancaria"
+                                                },
+                                                "balance": {
+                                                    "type": "number",
+                                                    "example": 5000
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-11-06T19:10:44Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-11-06T19:10:44Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error inesperado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "error inesperado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Registro de usuario",
+                "operationId": "6796c44e1f6079c411abbfed066c5907",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Juan Perez"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "juan@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario registrado exitosamente"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "token_generado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/v1/test": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Endpoint de prueba",
+                "operationId": "7a0052b4fed3a826c27bd33097dad485",
+                "responses": {
+                    "200": {
+                        "description": "Devuelve un mensaje de prueba"
+                    }
+                }
+            }
+        },
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Inicio de sesión",
+                "operationId": "da2ca4d7a5cdec77b8b45a20373535cb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "example@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inicio de sesión exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "token_generado"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciales incorrectas"
+                    }
+                }
+            }
+        },
+        "/api/v1/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Cierre de sesión",
+                "operationId": "c4eddaf1a2e990cc90e4326c0d731d41",
+                "responses": {
+                    "200": {
+                        "description": "Cierre de sesión exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cierre de sesión exitoso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Token": {
+                "description": "Token de autenticación",
+                "properties": {
+                    "access_token": {
+                        "description": "Token de acceso",
+                        "type": "string"
+                    },
+                    "token_type": {
+                        "description": "Tipo de token (por ejemplo, Bearer)",
+                        "type": "string"
+                    },
+                    "expires_in": {
+                        "description": "Tiempo de expiración en segundos",
+                        "type": "integer"
+                    },
+                    "refresh_token": {
+                        "description": "Token de refresco",
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "AccountType": {
+                "description": "Account Type model",
+                "properties": {
+                    "id": {
+                        "description": "Account Type ID",
+                        "type": "integer"
+                    },
+                    "type_account": {
+                        "description": "Account Type (e.g., Savings, Checking)",
+                        "type": "string"
+                    },
+                    "balance": {
+                        "description": "Account balance",
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "description": "Category model",
+                "properties": {
+                    "id": {
+                        "description": "Category ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Category name",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Transaction": {
+                "description": "Transaction model",
+                "properties": {
+                    "id": {
+                        "description": "Transaction ID",
+                        "type": "integer"
+                    },
+                    "wallet_id": {
+                        "description": "Wallet ID associated with the transaction",
+                        "type": "integer"
+                    },
+                    "transaction_type_id": {
+                        "description": "Transaction type ID",
+                        "type": "integer"
+                    },
+                    "category_id": {
+                        "description": "Category ID associated with the transaction",
+                        "type": "integer"
+                    },
+                    "amount": {
+                        "description": "Transaction amount",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "description": {
+                        "description": "Transaction description",
+                        "type": "string"
+                    },
+                    "date": {
+                        "description": "Transaction date",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "User name",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "User email",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Wallet": {
+                "description": "Wallet model",
+                "properties": {
+                    "id": {
+                        "description": "Wallet ID",
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "description": "User ID associated with the wallet",
+                        "type": "integer"
+                    },
+                    "account_type_id": {
+                        "description": "Account type ID associated with the wallet",
+                        "type": "integer"
+                    },
+                    "balance": {
+                        "description": "Wallet balance",
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Se requiere un token de acceso Bearer JWT",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Transaction",
+            "description": "Transaction"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
+            "name": "Wallet",
+            "description": "Wallet"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        }
+    ]
+}

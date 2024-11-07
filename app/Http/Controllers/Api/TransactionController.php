@@ -13,6 +13,64 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/v1/users/wallets/{wallet_id}/transaction",
+     *     summary="Crear una transacción en la cartera del usuario",
+     *     tags={"Transaction"},
+     *     security={{"sanctum": {}}},
+     *     @OA\Parameter(
+     *         name="wallet_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la cartera",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="type", type="string", example="ingreso"),
+     *             @OA\Property(property="amount", type="number", example=100.50),
+     *             @OA\Property(property="category", type="integer", example=3),
+     *             @OA\Property(property="description", type="string", example="Pago de salario")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Transacción creada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Transacción creada exitosamente"),
+     *             @OA\Property(property="transaction", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="wallet_id", type="integer", example=1),
+     *                 @OA\Property(property="transaction_type", type="string", example="ingreso"),
+     *                 @OA\Property(property="category_id", type="integer", example=3),
+     *                 @OA\Property(property="amount", type="number", example=100.50),
+     *                 @OA\Property(property="balance_after_transaction", type="number", example=1100.50),
+     *                 @OA\Property(property="date", type="string", format="date-time", example="2024-11-06T19:10:44Z"),
+     *                 @OA\Property(property="description", type="string", example="Pago de salario")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Datos de transacción no válidos",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Monto no válido")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error inesperado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Error inesperado")
+     *         )
+     *     )
+     * )
+     */
     public function index( Request $request, $wallet_id)
     {
         $wallet = Wallet::find($wallet_id);
@@ -78,6 +136,52 @@ class TransactionController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/users/wallets/{wallet_id}/transactions",
+     *     summary="Obtener todas las transacciones de una cartera específica",
+     *     tags={"Transaction"},
+     *     security={{"sanctum": {}}},
+     *     @OA\Parameter(
+     *         name="wallet_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la cartera",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de transacciones de la cartera",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="wallet", type="string", example="Bancaria"),
+     *             @OA\Property(property="transactions", type="array", @OA\Items(
+     *                 @OA\Property(property="wallet_name", type="string", example="Bancaria"),
+     *                 @OA\Property(property="type_transaccion", type="string", example="ingreso"),
+     *                 @OA\Property(property="category", type="string", example="Salario"),
+     *                 @OA\Property(property="ammount", type="string", example="$100.50"),
+     *                 @OA\Property(property="date", type="string", format="date-time", example="2024-11-06T19:10:44Z")
+     *             )),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cartera o transacciones no encontradas",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="No hay transacciones en esta cartera")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error inesperado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Error inesperado")
+     *         )
+     *     )
+     * )
+     */    
     public function show(Request $request, $wallet_id)
     {
         try{

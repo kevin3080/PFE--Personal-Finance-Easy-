@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @OA\Schema(
+ *     schema="Wallet",
+ *     type="object",
+ *     description="Wallet model",
+ *     @OA\Property(property="id", type="integer", description="Wallet ID"),
+ *     @OA\Property(property="user_id", type="integer", description="User ID associated with the wallet"),
+ *     @OA\Property(property="account_type_id", type="integer", description="Account type ID associated with the wallet"),
+ *     @OA\Property(property="balance", type="number", format="float", description="Wallet balance")
+ * )
+ */
 class Wallet extends Model
 {
     use HasFactory;
